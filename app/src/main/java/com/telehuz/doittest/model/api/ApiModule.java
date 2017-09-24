@@ -20,12 +20,11 @@ public class ApiModule {
 
     public static ApiInterface getApiInterface(String token) {
 
-        OkHttpClient httpClient = new OkHttpClient();
-
-        httpClient.interceptors().add(chain -> {
-                Request request = chain.request().newBuilder().addHeader("token", token).build();
-                return chain.proceed(request);
-        });
+        OkHttpClient httpClient = new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request request = chain.request().newBuilder().addHeader("token", token).build();
+                    return chain.proceed(request);
+                }).build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://api.doitserver.in.ua/")

@@ -1,6 +1,11 @@
 package com.telehuz.doittest.model.api;
 
 import com.telehuz.doittest.model.data.AuthResponse;
+import com.telehuz.doittest.model.data.Image;
+import com.telehuz.doittest.model.data.MyImages;
+import com.telehuz.doittest.model.data.UploadedImageResponse;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -28,5 +33,16 @@ public interface ApiInterface {
     Observable<AuthResponse> login(@Field("email") String username, @Field("password") String email);
 
     @GET("all")
-    Observable<ResponseBody> get();
+    Observable<MyImages> get();
+
+    @GET("gif")
+    Observable<ResponseBody> gif();
+
+    @Multipart
+    @POST("image")
+    Observable<UploadedImageResponse> uploadImage(@Part MultipartBody.Part image,
+                                                  @Part("description") RequestBody description,
+                                                  @Part("hashtag") RequestBody hashtag,
+                                                  @Part("latitude") RequestBody latitude,
+                                                  @Part("longitude") RequestBody longitude);
 }
