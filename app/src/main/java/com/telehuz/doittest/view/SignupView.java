@@ -15,4 +15,8 @@ public interface SignupView {
     void showProgress(boolean show);
 
     void startMainActivity();
+
+    boolean mayRequestStorage();
+
+    void openGallery();
 }

@@ -1,11 +1,9 @@
 package com.telehuz.doittest.model.api;
 
 import com.telehuz.doittest.model.data.AuthResponse;
-import com.telehuz.doittest.model.data.Image;
+import com.telehuz.doittest.model.data.Gif;
 import com.telehuz.doittest.model.data.MyImages;
 import com.telehuz.doittest.model.data.UploadedImageResponse;
-
-import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -36,7 +34,7 @@ public interface ApiInterface {
     Observable<MyImages> get();
 
     @GET("gif")
-    Observable<ResponseBody> gif();
+    Observable<Gif> gif();
 
     @Multipart
     @POST("image")

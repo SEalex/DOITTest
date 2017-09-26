@@ -1,4 +1,4 @@
-package com.telehuz.doittest.view;
+package com.telehuz.doittest.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.telehuz.doittest.R;
-import com.telehuz.doittest.presenter.LoginPresenterImpl;
+import com.telehuz.doittest.presenter.LoginPresenter;
+import com.telehuz.doittest.view.LoginView;
+import com.telehuz.doittest.view.activity.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,7 +33,7 @@ public class LoginFragment extends Fragment implements LoginView {
     @BindView(R.id.fragment_login_progress)
     ProgressBar progressBar;
 
-    LoginPresenterImpl presenter;
+    LoginPresenter presenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +43,7 @@ public class LoginFragment extends Fragment implements LoginView {
 
         ButterKnife.bind(this, view);
 
-        presenter = new LoginPresenterImpl(this);
+        presenter = new LoginPresenter(this);
 
         loginButton.setOnClickListener(v -> presenter.onLoginButtonClick(editEmail.getText().toString(), editPassword.getText().toString()));
 

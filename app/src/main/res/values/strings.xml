@@ -10,6 +10,8 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_invalid_username">This username is invalid</string>
-    <string name="permission_rationale">"Storage permissions are needed for user avatar selection."
-    </string>
+    <string name="permission_rationale">"Storage permissions are needed for user avatar selection."</string>
+    <string name="permission_location">"Location permissions are needed for new image uploading."</string>
+    <string name="description">Description</string>
+    <string name="hashtag">#hashtag</string>
 </resources>

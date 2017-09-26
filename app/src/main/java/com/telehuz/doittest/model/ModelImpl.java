@@ -3,6 +3,7 @@ package com.telehuz.doittest.model;
 import com.telehuz.doittest.model.api.ApiInterface;
 import com.telehuz.doittest.model.api.ApiModule;
 import com.telehuz.doittest.model.data.AuthResponse;
+import com.telehuz.doittest.model.data.Gif;
 import com.telehuz.doittest.model.data.MyImages;
 import com.telehuz.doittest.model.data.UploadedImageResponse;
 
@@ -11,6 +12,7 @@ import java.io.File;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -57,7 +59,12 @@ public class ModelImpl implements Model {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-//    Observable<ResponseBody> gif();
+    @Override
+    public Observable<Gif> gif() {
+        return apiInterface.gif()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
 
     @Override
     public Observable<UploadedImageResponse> uploadImage(File imageFile, String description, String hashtag,

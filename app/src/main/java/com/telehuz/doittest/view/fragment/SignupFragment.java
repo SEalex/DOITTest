@@ -1,10 +1,14 @@
-package com.telehuz.doittest.view;
+package com.telehuz.doittest.view.fragment;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +20,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.telehuz.doittest.R;
-import com.telehuz.doittest.presenter.SignupPresenterImpl;
+import com.telehuz.doittest.presenter.SignupPresenter;
 import com.telehuz.doittest.util.FileUtils;
+import com.telehuz.doittest.view.activity.MainActivity;
+import com.telehuz.doittest.view.SignupView;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +31,13 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 
 public class SignupFragment extends Fragment implements SignupView {
 
-    public static final int IMAGE_RESULT = 0;
+    public static final int IMAGE_RESULT = 10;
+    public static final int REQUEST_STORAGE = 11;
 
     @BindView(R.id.fragment_signup_button_signup)
     Button signupButton;
@@ -49,7 +57,7 @@ public class SignupFragment extends Fragment implements SignupView {
     @BindView(R.id.fragment_signup_progress)
     ProgressBar progressBar;
 
-    SignupPresenterImpl presenter;
+    SignupPresenter presenter;
 
     File userImageFile;
 
@@ -61,13 +69,10 @@ public class SignupFragment extends Fragment implements SignupView {
 
         ButterKnife.bind(this, view);
 
-        presenter = new SignupPresenterImpl(this);
+        presenter = new SignupPresenter(this);
 
         imageUser.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), IMAGE_RESULT);
+            presenter.onImageUserClick();
         });
 
         signupButton.setOnClickListener(v -> presenter.onSignupButtonClick(editUsername.getText().toString(), editEmail.getText().toString(),
@@ -89,6 +94,14 @@ public class SignupFragment extends Fragment implements SignupView {
     public void startMainActivity() {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), IMAGE_RESULT);
     }
 
     @Override
@@ -155,5 +168,32 @@ public class SignupFragment extends Fragment implements SignupView {
     private void makeToast(String text) {
         Toast toast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    @Override
+    public boolean mayRequestStorage() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        if (getActivity().checkSelfPermission(READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        if (shouldShowRequestPermissionRationale(READ_EXTERNAL_STORAGE)) {
+
+            View rootView = getActivity().getWindow().getDecorView().findViewById(android.R.id.content);
+
+            Snackbar.make(rootView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                        @Override
+                        @TargetApi(Build.VERSION_CODES.M)
+                        public void onClick(View v) {
+                            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_STORAGE);
+                        }
+                    })
+                    .show();
+        } else {
+            requestPermissions(new String[]{READ_EXTERNAL_STORAGE}, REQUEST_STORAGE);
+        }
+        return false;
     }
 }

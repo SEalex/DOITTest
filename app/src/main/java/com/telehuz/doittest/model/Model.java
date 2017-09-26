@@ -1,14 +1,11 @@
 package com.telehuz.doittest.model;
 
 import com.telehuz.doittest.model.data.AuthResponse;
-import com.telehuz.doittest.model.data.Image;
+import com.telehuz.doittest.model.data.Gif;
 import com.telehuz.doittest.model.data.MyImages;
 import com.telehuz.doittest.model.data.UploadedImageResponse;
 
 import java.io.File;
-import java.util.List;
-
-import okhttp3.ResponseBody;
 
 import rx.Observable;
 
@@ -20,7 +17,7 @@ public interface Model {
 
     Observable<MyImages> get();
 
-//    Observable<ResponseBody> gif();
+    Observable<Gif> gif();
 
     Observable<UploadedImageResponse> uploadImage(File imageFile, String description, String hashtag, float latitude, float longitude);
 }
