@@ -10,16 +10,16 @@ As a user, using a client application, I can:
 - add a new image;
 - generate GIF.
 
-    Screens
+    Screens:
     
--Login;
--Pictures list:
-    -image section includes the image, address and weather (these data are returned from API);
--Upload new picture:
-    -image;
-    -description;
-    -#tag;
-    -the coordinates of your current location or coordinates of image Metadata (if any).
--GIF images generation:
-    -the method returns a link to the GIF image consisting of the last 5 uploaded images;
-    -the app shows a popup with the GIF image over the pictures list.
+- Login;
+- Pictures list:
+    - image section includes the image, address and weather (these data are returned from API);
+- Upload new picture:
+    - image;
+    - description;
+    - #tag;
+    - the coordinates of your current location or coordinates of image Metadata (if any).
+- GIF images generation:
+    - the method returns a link to the GIF image consisting of the last 5 uploaded images;
+    - the app shows a popup with the GIF image over the pictures list.
